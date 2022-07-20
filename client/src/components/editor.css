@@ -1,0 +1,7 @@
+.ql-container {
+    min-height: 10em;
+}
+
+.ql-tooltip{
+    left:0!important;
+}

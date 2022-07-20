@@ -1,0 +1,9 @@
+@media (min-width: 900px){
+.css-xdmu94-MuiContainer-root {
+    max-width: 92vw !important;
+}
+}
+
+body{
+    background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png");
+}
