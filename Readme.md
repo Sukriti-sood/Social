@@ -18,7 +18,7 @@ Get Social With Social
 - Follow other Users
 - Can Toggle Theme (light, dark)
 
-## TODO
+## WIP Features
 
 - [ ] Design Enhancement
 - [ ] Improve User-Feed
