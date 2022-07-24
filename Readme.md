@@ -26,3 +26,4 @@ Get Social With Social
 - [ ] Implement Caching
 - [ ] Add loading to states
 - [ ] Implement Friends feature
+- [ ] Improve Like State Management
