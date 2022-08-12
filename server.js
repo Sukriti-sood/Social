@@ -23,7 +23,7 @@ io.use(authSocket);
 io.on("connection", (socket) => socketServer(socket));
 
 mongoose.connect(
-  process.env.MONGO_URI,
+  `mongodb://localhost:27017/${process.env.DB_NAME}`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("MongoDB connected");

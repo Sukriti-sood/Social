@@ -39,11 +39,16 @@ import { grey } from "@mui/material/colors";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} })
 function App() {
-  const [mode, setMode] = useState("dark")
+  const initialTheme = (localStorage.getItem("theme")?localStorage.getItem("theme"):"dark")
+  const [mode, setMode] = useState(initialTheme)
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
+        const prevMode = mode;
+        const theme = (prevMode === 'light' ? 'dark' : 'light')
+        localStorage.setItem("theme", theme)
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        
       },
     }),
     [],
