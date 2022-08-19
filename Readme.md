@@ -24,5 +24,5 @@ Get Social With Social
 - [ ] Improve User-Feed
 - [ ] Create function to delete OTP documents
 - [ ] Implement Caching
-- [ ] Add loading to states
 - [ ] Implement Friends feature
+- [ ] Improve Like State Management
