@@ -1,0 +1,46 @@
+version: '3.3'
+services:
+  social-api:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    # ports:
+    #   - "4000:4000"
+    environment: 
+      - PORT=4000
+    depends_on:
+      - mongo
+  
+
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=social
+      - MONGO_INITDB_ROOT_PASSWORD=social_password
+      - MONGO_INITDB_DATABASE=socialDB
+    volumes:
+      - mongo-db:/data/db
+
+  social-client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    # ports:
+    #   - "3000:3000"
+    depends_on:
+      - social-api
+
+  # nginx:
+  #   restart: always
+  #   depends_on:
+  #     - social-api
+  #     - social-client
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8080:80
+
+volumes:
+  mongo-db:
+    

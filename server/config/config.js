@@ -1,0 +1,16 @@
+module.exports = {
+    // MONGO_URI:process.env.DB_NAME,
+    MONGO_IP: process.env.MONGO_IP || "mongo",
+    MONGO_PORT: process.env.MONGO_PORT || 27017,
+    MONGO_USER: process.env.MONGO_USER,
+    MONGO_PASSWORD: process.env.MONGO_PASSWORD,    
+    PORT:process.env.PORT,
+    NODE_ENV:process.env.NODE_ENV,
+    MAIL_USERNAME:process.env.MAIL_USERNAME,
+    MAIL_PASSWORD:process.env.MAIL_PASSWORD,
+    OAUTH_CLIENTID:process.env.OAUTH_CLIENTID,
+    OAUTH_CLIENT_SECRET:process.env.OAUTH_CLIENTID,
+    OAUTH_REFRESH_TOKEN:process.env.OAUTH_REFRESH_TOKEN,
+    MAIL:process.env.MAIL,
+    TOKEN_KEY:process.env.TOKEN_KEY,
+}

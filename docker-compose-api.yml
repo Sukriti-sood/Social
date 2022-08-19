@@ -1,0 +1,66 @@
+version: '3.3'
+
+services:
+  social-api:
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: social_mern_nginx
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongodb
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      OAUTH_CLIENTID: ${OAUTH_CLIENTID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENTID}
+      OAUTH_REFRESH_TOKEN: ${OAUTH_REFRESH_TOKEN}
+      MAIL: ${MAIL}
+      TOKEN_KEY: ${TOKEN_KEY}
+    networks:
+      - social-mern-api
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - social-mern-api
+
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongodb
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin1234
+    volumes:
+      - mongodb-data
+    networks:
+      - social-mern-api
+
+networks:
+  social-mern-api:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+    driver: local

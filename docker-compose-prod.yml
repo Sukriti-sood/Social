@@ -1,0 +1,53 @@
+version: '3.3'
+services:
+  social-api:
+    build: 
+      context: ./server
+      args: 
+        NODE_ENV: production  
+    env_file:
+      - ./server/.env 
+    ports:
+      - "4000"
+    environment:
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - OAUTH_CLIENTID=${OAUTH_CLIENTID}
+      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
+      - OAUTH_REFRESH_TOKEN=${OAUTH_REFRESH_TOKEN}
+      - MAIL=${MAIL}
+      - TOKEN_KEY=${TOKEN_KEY}
+    networks:
+      - default
+      - social-client
+    command: npm start
+
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DB_NAME}
+    networks:
+      - default
+
+  social-client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    env_file:
+      - ./client/.env
+    networks:
+      - social-client
+    tty: true
+    stdin_open: true      
+    ports:
+      - "80:80"
+
+networks:
+  default:
+  social-client:

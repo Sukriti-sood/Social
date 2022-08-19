@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  social-api:
+    build: 
+      context: ./server
+      args: 
+        NODE_ENV: development  
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    env_file:
+      - ./server/.env        
+    command: npm run server
+    
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=social
+      - MONGO_INITDB_ROOT_PASSWORD=social_password
+      - MONGO_INITDB_DATABASE=socialDB
+
+  social-client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    env_file:
+      - ./client/.env
+    command: npm start
+
+  nginx:
+    restart: always
+    depends_on:
+      - social-api
+      - social-client
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80    

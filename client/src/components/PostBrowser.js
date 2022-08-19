@@ -42,7 +42,6 @@ const PostBrowser = (props) => {
     if (props.contentType === "posts") {
       if (props.profileUser) query.author = props.profileUser.username;
       if (searchExists) query.search = search.get("search");
-
       data = await getPosts(user && user.token, query);
     } else if (props.contentType === "liked") {
       data = await getUserLikedPosts(

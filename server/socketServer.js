@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 let users = [];
+const {TOKEN_KEY}= require("./config/config")
+
 
 const authSocket = (socket, next) => {
   let token = socket.handshake.auth.token;
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+      const decoded = jwt.verify(token, TOKEN_KEY);
       socket.decoded = decoded;
       next();
     } catch (err) {

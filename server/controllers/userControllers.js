@@ -9,6 +9,9 @@ const nodemailer = require("nodemailer");
 const hbs = require('nodemailer-express-handlebars')
 const path = require('path')
 
+const {MAIL, MAIL_PASSWORD, MAIL_USERNAME, OAUTH_CLIENTID, OAUTH_CLIENT_SECRET,
+OAUTH_REFRESH_TOKEN, TOKEN_KEY} = require("../config/config")
+
 
 const getUserDict = (token, user) => {
   return {
@@ -56,11 +59,11 @@ const emailSend = async (req, res)=>{
           service: 'gmail',
           auth: {
             type: 'OAuth2',
-            user: process.env.MAIL_USERNAME,
-            pass: process.env.MAIL_PASSWORD,
-            clientId: process.env.OAUTH_CLIENTID,
-            clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            refreshToken: process.env.OAUTH_REFRESH_TOKEN
+            user: MAIL_USERNAME,
+            pass: MAIL_PASSWORD,
+            clientId: OAUTH_CLIENTID,
+            clientSecret: OAUTH_CLIENT_SECRET,
+            refreshToken: OAUTH_REFRESH_TOKEN
           }
         });
 
@@ -75,7 +78,7 @@ const emailSend = async (req, res)=>{
       transporter.use('compile', hbs(handlebarOptions))
 
         let mailOptions = {
-          from: process.env.MAIL,
+          from: MAIL,
           to: otpResponse.email,
           subject: 'Verify Email',
           template: 'email',
@@ -153,10 +156,11 @@ const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign(buildToken(user), process.env.TOKEN_KEY);
+    const token = jwt.sign(buildToken(user), TOKEN_KEY);
 
     return res.json(getUserDict(token, user));
   } catch (err) {
+    console.log(err)
     return res.status(400).json({ error: err.message });
   }
 };
@@ -184,7 +188,7 @@ const login = async (req, res) => {
       throw new Error("Email or password incorrect");
     }
 
-    const token = jwt.sign(buildToken(user), process.env.TOKEN_KEY);
+    const token = jwt.sign(buildToken(user), TOKEN_KEY);
 
     return res.json(getUserDict(token, user));
   } catch (err) {

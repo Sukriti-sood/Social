@@ -1,5 +1,8 @@
 import { BASE_URL } from "../config";
 
+console.log(BASE_URL
+  )
+
 const getUserLikedPosts = async (likerId, token, query) => {
   try {
     const res = await fetch(

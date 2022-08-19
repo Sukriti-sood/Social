@@ -1,0 +1,16 @@
+FROM node:16.15.1-alpine
+
+LABEL version="1.0"
+LABEL description="Development Image for Social Frontend"
+
+WORKDIR /app
+
+COPY ./package.json ./
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]
